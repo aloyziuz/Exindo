@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>North Maluku | Exindo - Exciting Indonesia, Your Lifetime Journey</title>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <link href="images/logo.png" rel="shortcut icon" />
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/SigninSignout.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			//initialize menu
+			cbpHorizontalMenu.init();
+			
+			//search for cookie
+			var allCookie = document.cookie.split(";");
+			var name;
+			var pass;
+			for(var i = 0;i < allCookie.length; i++){
+				if(allCookie[i].split("=")[0].replace(/^\s+|\s+$/g,'') == "name"){
+					name = allCookie[i].split("=")[1];
+				}
+				if(allCookie[i].split("=")[0].replace(/^\s+|\s+$/g,'') == "pass"){
+					pass = allCookie[i].split("=")[1];
+				}
+			}
+			//automatic login if cookie is available
+			if(name != null && pass != null){
+				$.ajax({
+					type:"POST",
+					url:"checklogin.php",
+					data:{"memberUsername":name, "memberPassword":pass},
+					dataType: "json",
+					success: function(response){
+						if(response == "empty"){
+							document.getElementsByClassName('warningtxt')[0].style.display = "block";
+							document.getElementById('username').value = "";
+							document.getElementById('password').value = "";
+						}
+						else{
+							//close the login popup box
+							$('#mask , .loginpopup').fadeOut(500 , function() {
+								$('#mask').remove();
+							});
+							document.getElementById('statusbox').innerHTML = 'Welcome, ' + response[0] + ' | <a href="#" onclick="signout()">LOGOUT</a>';
+							if(document.getElementsByClassName('remember')[0].checked){
+								var expireDate = new Date();
+								expireDate.setDate(expireDate.getDate() + 13);
+								document.cookie = "name="+response[0]+";expires=" + expireDate.toGMTString();
+								document.cookie = "pass="+response[1]+";expires=" + expireDate.toGMTString();
+							}
+						}
+					}
+				});
+			}
+			
+			//check whether the user is logged in or not
+			$.ajax({
+				type:"POST",
+				url:"CheckUserLoggedIn.php",
+				success: function(response){
+					if(response != "empty"){
+						document.getElementById('statusbox').innerHTML = 'Welcome, ' + response + ' | <a href="#" onclick="signout()">LOGOUT</a>';
+					}
+				}
+			});
+			
+			//jquery eventhandler for sign in
+			$('a.signin').click(function() {
+				// Getting the variable's value from a link and show
+				var loginBox = $(this).attr('href');
+				$(loginBox).fadeIn(500);
+				
+				//position
+				var popMargTop = ($(loginBox).height() + 24) / 2; 
+				var popMargLeft = ($(loginBox).width() + 24) / 2; 
+				
+				$(loginBox).css({ 
+					'margin-top' : -popMargTop,
+					'margin-left' : -popMargLeft
+				});
+				
+				// Add the mask to body
+				$('body').append('<div id="mask"></div>');
+				$('#mask').fadeIn(500);
+				
+				return false;
+			});
+			
+			//closing modal login box
+			$('a.close, #mask').on('click', function() { 
+				$('#mask , .loginpopup').fadeOut(500 , function() {
+					$('#mask').remove();  
+				}); 
+				return false;
+			});
+		});
+		</script>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="header">
+            <img src="images/logo.png" alt="logo" />
+            <p id="statusbox"><a href="#loginbox" class="signin">SIGN IN</a> | <a href="register.html" class="register">REGISTER</a></p>
+        </div>
+		
+		<div id="loginbox" class="loginpopup">
+			 <a href="#" class="close"><img src="images/closeBtn.png" class="closeBtn" title="Close Window" alt="Close" /></a>
+			<form name="form1" method="post" action="" class="signinform">
+			<fieldset class="textbox">
+				<label class="username">
+					<span>Username: </span>
+					<input type="text" id="username" name="username" placeholder="Username">
+				</label>
+				<label class="password">
+					<span>Password: </span>
+					<input type="password" id="password" name="password" placeholder="Password">
+				</label>
+                <span><input type="checkbox" name="remember" value="yes" class="remember" />Remember Me!</span>
+				<label class="warningtxt" style="color:#F00; display:none;">Invalid Username and/or Password</label>
+				<button type="button" class="submitBtn" onclick="signin()">Sign In</button>
+			</fieldset>
+			</form>
+		</div>
+    
+        <div class="cbp-container">	
+            <script>
+				$.ajax({
+					type:"GET",
+					url:"menubar.html",
+					async:false,
+					success: function(response){
+						document.getElementsByClassName('cbp-container')[0].innerHTML = response;
+					}
+				});
+			</script>
+        </div>
+	  	<script src="js/cbpHorizontalMenu.js"></script>
+                      
+        <div class="contents">         	   
+            <h1> North Maluku </h1>           
+           
+            <div class="article">
+                <img src="images/place/Halmahera Islands.jpg" />
+                <div style="margin-left:250px;">
+                    <h3>Halmahera Islands </h3>
+                    <p>The remote Halmahera island, also called Gilolo or Jailolo, is the largest island in Maluku (the Moluccas), K-shaped almost like a miniature Sulawesi. With white sandy beaches, unspoiled forests and the spectacular Mt Mamuya in the distance, this island offers stunning scenery. This is a rugged and mountainous landscape and much of the island is still covered in forest.</p>
+                    <p>While the island covers an enormous area of over 17,000 square kilometers, it is sparsely populated. This island is the core of a larger region, called Moro that includes the island and the coastline of Halmahera, and is closest to Morotai to the north.</p>
+                    <p>During the fifteenth and sixteenth centuries, Halmahera was largely under the dominion of the powerful sultanate of Ternate. In the mid-sixteenth century, the island was the site of a Portuguese Jesuit mission, most noted of whom was St. Francis Xavier (known here as St. Franciscus Xaverius). The Muslim states on Ternate and Halmahera rejected Christianity, and managed to drive the mission away from the island in 1571. However its influence remains evident as today half the population is Muslim and half are Christian.</p>
+                    <p>In the seventeenth century, Ternate further exerted its power over Morotai by repeatedly forcing major parts of the population to migrate from the island.</p>
+                    <p>Halmahera had an important role during World War II. It was here that the Americans started their allied invasions against the occupied Philippines and South Pacific Islands. General McArthur resided on a small island close to Daruba where he planned and coordinated countless air strikes, sea invasions and counter-attacks against the Japanese. The American Daruba Airlfield has seven runways and can still be sighted today. Due to the enormous amount of explosives, ammunition and guns still found in the shallow waters, the island remains out of bounds for divers. Only designated surveyors dive here.</p>
+                </div>
+            </div>
+            
+            <div class="article">
+                <img src="images/place/Ambon.jpg" />
+                <div style="margin-left:250px;">
+                    <h3>Ambon</h3>
+                    <p>The tiny islands of Ambon, Banda, Saumlaki,Ternate and Tidore - among the thousands of islands in the Moluccas seas,- changed the course of world history from the 15th century onwards. These islands were what triggered the European Age of Exploration. </p> 
+        
+                    <p>For in search of the Spice Islands in the Far East, Christopher Columbus sailed west – and discovered America. Vasco da Gama sailed south and discovered the long route around Africa’s Cape of Good Hope in 1498 to finally reach India after a long and perilous voyage. Only later did the Portuguese finally discover the sea route to Banda and Ambon. These small islands in the eastern deep seas of the Indonesian archipelago were for centuries the sole producers of the fragrant nutmeg and mace in the world. At the time these spices fetched their weight in gold in Medieval Europe. </p>
+                    
+                    <p>The tiny islands of Ternate and Tidore,  urther north of Ambon were producers of cloves. Ternate is where the Majestic Mount Gamalama and the astonishing Lake Tolire are located. Indian and Arab traders would sell cloves in Europe for exorbitant prices, but kept the location of their source a tightly held secret. These are the Moluccas – or Maluku – the original Spice Islands, that are now divided into the two provinces of Maluku and North Maluku. </p>
+                    
+                    <p>It is from these islands that the Dutch East India Company first gained their stranglehold on the spice trade in the archipelago, gradually colonizing the Indonesian islands over three centuries, until it came to be called the Dutch East Indies, the present-day Republic of Indonesia.</p>
+                    
+                    <p>As the glory days spices passed, the significance of the Moluccas waned. But it is here where the history of European explorations and colonization began.</p>
+                       
+                    <p>Fortunately the beauty of that era still remains. Today, the town of Ambon is the capital of Maluku, occupying a small flat area by the beautiful Ambon Bay that is backed by lush green mountains and facing deep crystal clear waters that are alive with colorful coral gardens and untold species of marine creatures. </p>
+                    
+                    <p>Although small in size, Ambon island still offers plenty of experiences for adventurous travelers. From exploring the charming Kota Ambon – the main town of the island, to walking up mountains through lush tropical vegetation, there are many undiscovered gems ready for visitors to experience.  </p>
+                     
+                    <p>The town of Ambon – Kota Ambon – is known as ‘Ambon Manise’ meaning sweet or beautiful Ambon. The name refers to both the beauty of the people here and the beauty of the tropical island location. </p>
+                    
+                    <p>As one of the earliest places in Indonesia to be occupied by colonial powers, Ambon has a rich and ancient history. Many of the Ambonese today have mixed European and Ambonese heritage. </p>
+                    
+                    <p>Visit here and discover centuries-old fortresses and the literature of local kingdoms which traces the story of the people, from periods of prosperity to escalating and controlled trades, harsh colonialism, a grueling struggle, and finally, to independence.</p>
+                    
+                    <p>The island also played an important role in World War II when Ambon was used as a headquarters for the Japanese military. Remnants from the war still remain, both in museums and the open air. Some war artifacts remain silently underwater. Today, these remnants are among the most valued historical sites in Ambon.  </p>
+                    
+                    <p>Ambon is multicultural and home to various ethnicities including the native Alifuru tribes, the migrating Javanese, Sumatrans, Minahasans, the Butons, the Arabs who came in the 9th century, the Europeans, and the Chinese who first came in the 7th century to share in the commerce of this prosperous spice island.  Between 1999-2002 the island was the scene of Christian-Muslim violence however since 2004 the island has maintained a period of ongoing peace.</p>                    
+				</div>
+			</div>
+        </div>
+        
+        <div class="footer">    
+            <p>&copy; Copyright 2014. All Rights Reserved.</p>
+            <p>www.excitingindonesia.com</p>
+        </div>
+    </div>
+</body>
+</html>

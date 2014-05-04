@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>North Sumatra | Exindo - Exciting Indonesia, Your Lifetime Journey</title>
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <link href="images/logo.png" rel="shortcut icon" />
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/SigninSignout.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			//initialize menu
+			cbpHorizontalMenu.init();
+			
+			//search for cookie
+			var allCookie = document.cookie.split(";");
+			var name;
+			var pass;
+			for(var i = 0;i < allCookie.length; i++){
+				if(allCookie[i].split("=")[0].replace(/^\s+|\s+$/g,'') == "name"){
+					name = allCookie[i].split("=")[1];
+				}
+				if(allCookie[i].split("=")[0].replace(/^\s+|\s+$/g,'') == "pass"){
+					pass = allCookie[i].split("=")[1];
+				}
+			}
+			//automatic login if cookie is available
+			if(name != null && pass != null){
+				$.ajax({
+					type:"POST",
+					url:"checklogin.php",
+					data:{"memberUsername":name, "memberPassword":pass},
+					dataType: "json",
+					success: function(response){
+						if(response == "empty"){
+							document.getElementsByClassName('warningtxt')[0].style.display = "block";
+							document.getElementById('username').value = "";
+							document.getElementById('password').value = "";
+						}
+						else{
+							//close the login popup box
+							$('#mask , .loginpopup').fadeOut(500 , function() {
+								$('#mask').remove();
+							});
+							document.getElementById('statusbox').innerHTML = 'Welcome, ' + response[0] + ' | <a href="#" onclick="signout()">LOGOUT</a>';
+							if(document.getElementsByClassName('remember')[0].checked){
+								var expireDate = new Date();
+								expireDate.setDate(expireDate.getDate() + 13);
+								document.cookie = "name="+response[0]+";expires=" + expireDate.toGMTString();
+								document.cookie = "pass="+response[1]+";expires=" + expireDate.toGMTString();
+							}
+						}
+					}
+				});
+			}
+			
+			//check whether the user is logged in or not
+			$.ajax({
+				type:"POST",
+				url:"CheckUserLoggedIn.php",
+				success: function(response){
+					if(response != "empty"){
+						document.getElementById('statusbox').innerHTML = 'Welcome, ' + response + ' | <a href="#" onclick="signout()">LOGOUT</a>';
+					}
+				}
+			});
+			
+			//check whether the user is logged in or not
+			$.ajax({
+				type:"POST",
+				url:"CheckUserLoggedIn.php",
+				success: function(response){
+					if(response != "empty"){
+						document.getElementById('statusbox').innerHTML = 'Welcome, ' + response + ' | <a href="#" onclick="signout()">LOGOUT</a>';
+					}
+				}
+			});
+			
+			//jquery eventhandler for sign in
+			$('a.signin').click(function() {
+				// Getting the variable's value from a link and show
+				var loginBox = $(this).attr('href');
+				$(loginBox).fadeIn(500);
+				
+				//position
+				var popMargTop = ($(loginBox).height() + 24) / 2; 
+				var popMargLeft = ($(loginBox).width() + 24) / 2; 
+				
+				$(loginBox).css({ 
+					'margin-top' : -popMargTop,
+					'margin-left' : -popMargLeft
+				});
+				
+				// Add the mask to body
+				$('body').append('<div id="mask"></div>');
+				$('#mask').fadeIn(500);
+				
+				return false;
+			});
+			
+			//closing modal login box
+			$('a.close, #mask').on('click', function() { 
+				$('#mask , .loginpopup').fadeOut(500 , function() {
+					$('#mask').remove();  
+				}); 
+				return false;
+			});
+		});
+		</script>
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div class="header">
+            <img src="images/logo.png" alt="logo" />
+            <p id="statusbox"><a href="#loginbox" class="signin">SIGN IN</a> | <a href="register.html" class="register">REGISTER</a></p>
+        </div>
+		
+		<div id="loginbox" class="loginpopup">
+			 <a href="#" class="close"><img src="images/closeBtn.png" class="closeBtn" title="Close Window" alt="Close" /></a>
+			<form name="form1" method="post" action="" class="signinform">
+			<fieldset class="textbox">
+				<label class="username">
+					<span>Username: </span>
+					<input type="text" id="username" name="username" placeholder="Username">
+				</label>
+				<label class="password">
+					<span>Password: </span>
+					<input type="password" id="password" name="password" placeholder="Password">
+				</label>
+                <span><input type="checkbox" name="remember" value="yes" class="remember" />Remember Me!</span>
+				<label class="warningtxt" style="color:#F00; display:none;">Invalid Username and/or Password</label>
+				<button type="button" class="submitBtn" onclick="signin()">Sign In</button>
+			</fieldset>
+			</form>
+		</div>
+    
+        <div class="cbp-container">	
+            <script>
+				$.ajax({
+					type:"GET",
+					url:"menubar.html",
+					async:false,
+					success: function(response){
+						document.getElementsByClassName('cbp-container')[0].innerHTML = response;
+					}
+				});
+			</script>
+        </div>
+	  	<script src="js/cbpHorizontalMenu.js"></script>
+                      
+        <div class="contents">         	   
+            <h1> North Sumatra </h1>
+            
+            <div class="article">
+                <img src="images/place/medan.jpg" />
+                <div style="margin-left:250px;">
+                    <h3>Medan</h3>
+                    <p>The booming city of Medan, capital of North Sumatra, is an economic hub and commercial centre for the region. This is the largest city in Sumatra attracting residents from all over Indonesia who come here to do business.</p> 
+                    <p>For visitors, Medan is best known as the gateway to North Sumatra with many travellers flying into the city and setting off from here for adventures in the cool highlands of Lake Toba or the wild Sumatran jungle.</p> 
+                    <p>This is a busy and sprawling metropolis so you’ll need to be patient as noisy minibuses and becak compete with taxis and motorbikes for space through the crowds and heat. </p>
+                    <p>The population of Medan is diverse. Citizens here represent virtually every ethnicity in Indonesia including Batak, Malay, Javanese, Minang, Acehnese, Indians and Chinese.</p>
+                    <p>In it’s earliest days, the area which is now Medan was home to a community of traders and seafarers, under the rule of Islamic Malay leaders. This was until the Acehnese finally conquered the area after years of battling in the early 17th century. During the period of conflict, the plains were used as a battlefield between the two kingdoms which is why Medan translates literally as field or battlefield.</p>
+                    <p>After independence in 1948, the population of Medan exploded and it is now the third largest city in the country. Today the influence of Medan’s colonial plantation past is reflected in the European architecture of many of the cities biggest buildings. Medan has become a blend of the modern and the ancient. </p>
+                </div>
+            </div>
+            
+            <div class="article">
+                <img src="images/place/toba.jpg" />
+                <div style="margin-left:250px;">
+                    <h3>Toba Lake & Samosir Island </h3>
+                    <p>Lake Toba is one of the awesome natural wonders of the world. This is a crater lake so enormous it has an island almost the size of Singapore in its centre. At over 1,145 square kilometers, and a depth of 450 meters, Lake Toba is actually more like an ocean. This is the largest lake in Southeast Asia and one of the deepest lakes in the world.</p>
+                    <p>Toba is a place to come and sit back, relax and absorb some beautiful pristine scenery. As you sit and take in the view of the picturesque mountains set against the cool clear lake, you will feel the worries of the world melt away. As the lake sits 900 meters above sea level there is a cooler climate here making a refreshing break from the heat, humidity and pollution of the city.</p>
+                    <p>It’s hard to imagine a more scenic place to come and enjoy hiking, swimming and sailing although once you arrive it might be difficult to resist the anesthetizing effects of the lake. The cool clear water coupled with the relaxed atmosphere and friendly people is what draws visitors from all over the world to Toba.</p>
+                    <p>Venture onto the island of Samosir in the middle of the lake and you will discover mountains steeped in cool mist, clear waterfalls to swim under and locals taking their water buffalo out in the fields. This is a place to come and enjoy the legendary Batak hospitality. Say cheers and enjoy some traditional palm wine with the locals. Sit and have coffee and chat with islanders keen to practice their English. Where-ever you go, it won't take long to make a new friend.</p>
+                    
+                    <p>The island of Samosir, situated in the huge crater lake of Toba,  measures 45 km. by 20 km. The island, together with its surrounding areas is the heart of the Toba Batak culture. A visit to Lake Toba is not complete without a stay on Samosir with its many traditional villages along its shoreline. Lake Toba is around 5 hours’ drive from North Sumatra’s capital city, Medan.</p>
+                    <p>On the east side of the island, the land rises steeply from a narrow strip of flat land along the lake’s water edge climbing to a central plateau that towers some 780 m. above the waters. Cycling up to the plateau passing many traditional villages is a pleasant experience, as from this height one can have a wonderful panoramic view on this magnificent blue lake.</p>
+                </div>
+            </div>
+        </div>
+		
+        <div class="footer">    
+            <p>&copy; Copyright 2014. All Rights Reserved.</p>
+            <p>www.excitingindonesia.com</p>
+        </div>
+    </div>
+</body>
+</html>
