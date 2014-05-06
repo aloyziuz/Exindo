@@ -4,14 +4,30 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Central Sulawesi | Exindo - Exciting Indonesia, Your Lifetime Journey</title>
     <link href="style.css" rel="stylesheet" type="text/css"/>
+	<link href="css/ticker-style.css" rel="stylesheet" type="text/css" />
     <link href="images/logo.png" rel="shortcut icon" />
     <script type="text/javascript" src="js/jquery-1.11.0.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="js/jquery.rss.js"></script>
+    <script type="text/javascript" src="js/parallaxslider.js"></script>
     <script type="text/javascript" src="js/SigninSignout.js"></script>
+	<script type="text/javascript" src="js/Search.js"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
+			//initialize slider
+			var $pxs_container	= $('#pxs_container');
+			$pxs_container.parallaxSlider();
+			
 			//initialize menu
 			cbpHorizontalMenu.init();
+			
+			//initialize news rss
+			$("#news").rss("http://feeds.feedburner.com/IndonesiaTravelNews", {
+				limit: 7,
+				layoutTemplate: '<div>{entries}</div>',
+				entryTemplate: '<p style="border-bottom:#999 thin solid"><a href="{url}" target="_blank" style="text-decoration:none;font-size:16px;font-weight:600;">{title}</a></p>'
+			}).show();
 			
 			//search for cookie
 			var allCookie = document.cookie.split(";");
@@ -55,17 +71,6 @@
 				});
 			}
 			
-			//check whether the user is logged in or not
-			$.ajax({
-				type:"POST",
-				url:"CheckUserLoggedIn.php",
-				success: function(response){
-					if(response != "empty"){
-						document.getElementById('statusbox').innerHTML = 'Welcome, ' + response + ' | <a href="#" onclick="signout()">LOGOUT</a>';
-					}
-				}
-			});
-			
 			//jquery eventhandler for sign in
 			$('a.signin').click(function() {
 				// Getting the variable's value from a link and show
@@ -104,6 +109,7 @@
         <div class="header">
             <img src="images/logo.png" alt="logo" />
             <p id="statusbox"><a href="#loginbox" class="signin">SIGN IN</a> | <a href="register.html" class="register">REGISTER</a></p>
+			<input type="search" id="searchBar" name="searchBar" size="30" placeholder="Search by province name..." onkeydown="Javascript: if (event.keyCode==13) goSearch();"/>
         </div>
 		
 		<div id="loginbox" class="loginpopup">

@@ -17,7 +17,6 @@ $memberUsername = stripslashes($memberUsername);
 $memberPassword = stripslashes($memberPassword);
 $memberUsername = mysql_real_escape_string($memberUsername);
 $memberPassword = mysql_real_escape_string($memberPassword);
-$memberPassword = md5($memberPassword);
 
 $sqlquery = "select * from $tableName where username = '$memberUsername' and password = '$memberPassword'";
 $result = mysql_query($sqlquery);

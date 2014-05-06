@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/jquery.rss.js"></script>
     <script type="text/javascript" src="js/parallaxslider.js"></script>
     <script type="text/javascript" src="js/SigninSignout.js"></script>
+    <script type="text/javascript" src="js/Search.js"></script>
     
 	<script type="text/javascript">
 		$(document).ready(function() {
@@ -70,17 +71,6 @@
 				});
 			}
 			
-			//check whether the user is logged in or not
-			$.ajax({
-				type:"POST",
-				url:"CheckUserLoggedIn.php",
-				success: function(response){
-					if(response != "empty"){
-						document.getElementById('statusbox').innerHTML = 'Welcome, ' + response + ' | <a href="#" onclick="signout()">LOGOUT</a>';
-					}
-				}
-			});
-			
 			//jquery eventhandler for sign in
 			$('a.signin').click(function() {
 				// Getting the variable's value from a link and show
@@ -111,14 +101,6 @@
 				return false;
 			});
 		});
-		
-         function goSearch()
-         {
-            var searchVal = document.getElementById("searchBar").value;	
-			if(searchVal == "aceh"){
-				window.location = "Place_Aceh.html";
-			}
-         }
 		 		
 		</script>
 </head>
@@ -128,7 +110,7 @@
         <div class="header">
             <img src="images/logo.png" alt="logo" />            
             <p id="statusbox"><a href="#loginbox" class="signin">SIGN IN</a> | <a href="register.html" class="register">REGISTER</a></p>
-            <input type="search" id="searchBar" name="searchBar" size="30" placeholder="Search here..." onkeydown="Javascript: if (event.keyCode==13) goSearch();"/>
+            <input type="search" id="searchBar" name="searchBar" size="30" placeholder="Search by province name..." onkeydown="Javascript: if (event.keyCode==13) goSearch();"/>
         </div>
 		
 		<div id="loginbox" class="loginpopup">

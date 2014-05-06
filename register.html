@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/jquery.rss.js"></script>
     <script type="text/javascript" src="js/SignUp.js"></script>
 	<script type="text/javascript" src="js/SigninSignout.js"></script>
+    <script type="text/javascript" src="js/Search.js"></script>
     
     <script type="text/javascript">
 		$(document).ready(function() {
@@ -97,6 +98,7 @@
         <div class="header">
             <img src="images/logo.png" alt="logo" />
             <p id="statusbox"><a href="#loginbox" class="signin">SIGN IN</a> | <a href="register.html" class="register">REGISTER</a></p>
+            <input type="search" id="searchBar" name="searchBar" size="30" placeholder="Search by province name..." onkeydown="Javascript: if (event.keyCode==13) goSearch();"/>
         </div>
 		
 		<div id="loginbox" class="loginpopup">
@@ -131,6 +133,7 @@
 			</script>
         </div>
 	  	<script src="js/cbpHorizontalMenu.js"></script>
+            
                     
         <div class="contents">
         	<div class="signup">        	   
