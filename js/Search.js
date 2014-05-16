@@ -103,4 +103,7 @@ function goSearch()
 	else if(searchVal == "west papua"){
 		window.location = "Place_WestPapua.html";
 	}
+	else{
+		alert("Search not found.\nPlease enter the correct province name of Indonesia");
+	}
 }

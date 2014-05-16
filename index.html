@@ -4,7 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Exindo - Exciting Indonesia, Your Lifetime Journey</title>
     <link href="style.css" rel="stylesheet" type="text/css"/>
-	<link href="css/ticker-style.css" rel="stylesheet" type="text/css" />
     <link href="images/logo.png" rel="shortcut icon" />
     <script type="text/javascript" src="js/jquery-1.11.0.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
@@ -47,28 +46,14 @@
 					type:"POST",
 					url:"checklogin.php",
 					data:{"memberUsername":name, "memberPassword":pass},
-					dataType: "json",
-					success: function(response){
-						if(response == "empty"){
-							document.getElementsByClassName('warningtxt')[0].style.display = "block";
-							document.getElementById('username').value = "";
-							document.getElementById('password').value = "";
-						}
-						else{
-							//close the login popup box
-							$('#mask , .loginpopup').fadeOut(500 , function() {
-								$('#mask').remove();
-							});
-							document.getElementById('statusbox').innerHTML = 'Welcome, ' + response[0] + ' | <a href="#" onclick="signout()">LOGOUT</a>';
-							if(document.getElementsByClassName('remember')[0].checked){
-								var expireDate = new Date();
-								expireDate.setDate(expireDate.getDate() + 13);
-								document.cookie = "name="+response[0]+";expires=" + expireDate.toGMTString();
-								document.cookie = "pass="+response[1]+";expires=" + expireDate.toGMTString();
-							}
-						}
-					}
+					dataType: "json"
 				});
+			}
+			
+			//check whether the user is logged in
+			var loggedin = CheckUserLoggedIn();
+			if(loggedin != false){
+				document.getElementById('statusbox').innerHTML = 'Welcome, ' + loggedin + ' | <a href="#" onclick="signout()">LOGOUT</a>';
 			}
 			
 			//jquery eventhandler for sign in
@@ -98,10 +83,10 @@
 				$('#mask , .loginpopup').fadeOut(500 , function() {
 					$('#mask').remove();  
 				}); 
+				document.getElementsByClassName('warningtxt')[0].style.display = 'none';
 				return false;
 			});
-		});
-		 		
+		});		 		
 		</script>
 </head>
 
@@ -126,7 +111,7 @@
 					<input type="password" id="password" name="password" placeholder="Password">
 				</label>
                 <span><input type="checkbox" name="remember" value="yes" class="remember" />Remember Me!</span>
-				<label class="warningtxt" style="color:#F00; display:none;">Invalid Username and/or Password</label>
+				<span><label class="warningtxt" style="color:#F00; display:none;">Invalid Username and/or Password</label></span>
 				<button type="button" class="submitBtn" onclick="signin()">Sign In</button>
 			</fieldset>
 			</form>
@@ -157,8 +142,8 @@
                     <li><a href="Place_Jakarta.html"><img src="images/place/National Monument.jpg" title="National Monument, Jakarta"/></a></li>
                     <li><a href="Food_Jakarta.html"><img src="images/food/nasi tumpeng.jpg" title="Nasi Tumpeng, Jakarta"/></a></li>
                     <li><a href="Food_WestSumatra.html"><img src="images/food/masakan padang.jpg" title="Padang food, West Sumatra"/></a></li>
-                    <li><img src="images/culture/gamelan.jpg" title="Gamelan, Java"/></li>
-                    <li><img src="images/culture/Kecak Dance.jpg" title="Kecak Dance, Bali"/></li>
+                    <li><a href="Culture_Yogyakarta.html"><img src="images/culture/gamelan.jpg" title="Gamelan, Java"/></a></li>
+                    <li><a href="Culture_Bali.html"><img src="images/culture/Kecak Dance.jpg" title="Kecak Dance, Bali"/></a></li>
                 </ul>
                 <div class="pxs_navigation">
                     <span class="pxs_next"></span>
@@ -181,10 +166,10 @@
             <div class="socialmedia">
             	<h2>&nbsp;&nbsp;Social Media Supports</h2><hr />
                 <div id="groupSocMed">
-                    <a href="#"><img src="images/facebook.png" title="Facebook" alt="facebook" /></a>
-                    <a href="#"><img src="images/twitter.png" title="Twitter" alt="twitter" /></a>
-                    <a href="#"><img src="images/instagram.png" title="Instagram" alt="instagram" /></a>
-                    <a href="#"><img src="images/path.png" title="Path" alt="path" /></a>
+                    <a href="https://www.facebook.com/pages/Exciting-Indonesia/704740822898653" target="_blank"><img src="images/facebook.png" title="Facebook" alt="facebook" /></a>
+                    <a href="https://twitter.com/ExcitingIndo" target="_blank"><img src="images/twitter.png" title="Twitter" alt="twitter" /></a>
+                    <a href="http://instagram.com/excitingindo" target="_blank"><img src="images/instagram.png" title="Instagram" alt="instagram" /></a>
+                    <a href="contact_us.html"><img src="images/path.png" title="Path" alt="path" /></a>
                 </div>
             </div>
         </div>
